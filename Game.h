@@ -25,6 +25,12 @@ private:
 public:
 	void ChangeScene(SceneId next);
 
+private:
+	class Screen* mScreen;
+
+public:
+	class Screen* screen() { return mScreen; }
+
 // ƒvƒŒƒCƒ„[
 private:
 	class Player* mPlayer;

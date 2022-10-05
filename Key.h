@@ -1,4 +1,5 @@
 #pragma once
+#include <Novice.h>
 
 class Key {
 
@@ -10,12 +11,23 @@ private:
 public:
 
 	// キー入力を受け取る
-	static void Input();
-	// キーが押された時
-	static bool IsTrigger(char keycode);
-	// キーを押しているとき
-	static bool IsPressed(char keycode);
+	static void Input() {
+		memcpy(preKeys, keys, 256);
+		Novice::GetHitKeyStateAll(keys);
+	}
 
+	// キーが押された時
+	static bool IsTrigger(char keycode) {
+		return preKeys[keycode] == 0 && keys[keycode] != 0;
+	}
+	// キーを押しているとき
+	static bool IsPressed(char keycode) {
+		return keys[keycode] != 0;
+	}
+	// キーを離したとき
+	static bool IsRelease(char keycode) {
+		return preKeys[keycode] != 0 && keys[keycode] == 0;
+	}
 };
 
 #pragma region KeyCode

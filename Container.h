@@ -1,4 +1,5 @@
 #pragma once
+#include "Screen.h"
 class Container
 {
 
@@ -12,7 +13,7 @@ private:
 
 	// ゲームデータ
 	struct GameData	{
-	
+		Screen::Data screen;
 	};
 
 private:
@@ -23,7 +24,7 @@ private:
 public:
 	const WindowData& window() const { return mWindowData; }
 
-	
+	const Screen::Data& screen() const { return mGameData.screen; }
 
 public:
 	Container();

@@ -23,9 +23,10 @@ private:
     Data mData;
 
 public:
-    PolygonVertex(class Game* game);
+    PolygonVertex(class Game* game = nullptr);
     ~PolygonVertex();
 
+    void Create(int i);
     void Update();
 
     const Vector2D& position() const { return mData.mPosition; }

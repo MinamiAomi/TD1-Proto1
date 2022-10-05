@@ -316,8 +316,8 @@ public:
 		float _10 = 0, float _11 = 1, float _12 = 0,
 		float _20 = 0, float _21 = 0, float _22 = 1) {
 		ele[0][0] = _00, ele[0][1] = _01, ele[0][2] = _02;
-		ele[1][0] = _00, ele[1][1] = _01, ele[1][2] = _02;
-		ele[2][0] = _00, ele[2][1] = _01, ele[2][2] = _02;
+		ele[1][0] = _10, ele[1][1] = _11, ele[1][2] = _12;
+		ele[2][0] = _20, ele[2][1] = _21, ele[2][2] = _22;
 	}
 	Matrix33(float e[3][3]) {
 		memcpy(ele, e, 9 * sizeof(float));
@@ -325,8 +325,9 @@ public:
 
 
 	inline void setIdentity();
-	inline Vector2D operator*(const Vector2D& vec);
-	inline Matrix33 operator*(const Matrix33& mat);
+	inline Vector2D operator*(const Vector2D& vec) const;
+	inline Matrix33 operator*(const Matrix33& mat) const;
+	inline Matrix33& operator*=(const Matrix33& mat);
 
 	inline static Matrix33 CreateScaling(float x, float y);
 	inline static Matrix33 CreateScaling(const Vector2D& vec);
@@ -465,7 +466,7 @@ inline bool Vector2D::operator!=(const Vector2D& other) const {
 #pragma endregion
 
 
-
+#pragma region Matrix33ä÷êîíËã`
 inline void Matrix33::setIdentity() {
 	float iden[3][3] = {
 		{1,0,0},
@@ -474,12 +475,12 @@ inline void Matrix33::setIdentity() {
 	};
 	memcpy(ele, iden, 9 * sizeof(float));
 }
-inline Vector2D Matrix33::operator*(const Vector2D& vec) {
+inline Vector2D Matrix33::operator*(const Vector2D& vec) const{
 	return Vector2D(
 		ele[0][0] * vec.x + ele[0][1] * vec.y + ele[0][2],
 		ele[1][0] * vec.x + ele[1][1] * vec.y + ele[1][2]);
 }
-inline Matrix33 Matrix33::operator*(const Matrix33& mat) {
+inline Matrix33 Matrix33::operator*(const Matrix33& mat) const {
 	return Matrix33(
 			ele[0][0] * mat.ele[0][0] + ele[0][1] * mat.ele[1][0] + ele[0][2] * mat.ele[2][0],
 			ele[0][0] * mat.ele[0][1] + ele[0][1] * mat.ele[1][1] + ele[0][2] * mat.ele[2][1],
@@ -492,6 +493,10 @@ inline Matrix33 Matrix33::operator*(const Matrix33& mat) {
 			ele[2][0] * mat.ele[0][0] + ele[2][1] * mat.ele[1][0] + ele[2][2] * mat.ele[2][0],
 			ele[2][0] * mat.ele[0][1] + ele[2][1] * mat.ele[1][1] + ele[2][2] * mat.ele[2][1],
 			ele[2][0] * mat.ele[0][2] + ele[2][1] * mat.ele[1][2] + ele[2][2] * mat.ele[2][2]);
+}
+inline Matrix33& Matrix33::operator*=(const Matrix33& mat) {
+	*this = *this * mat;
+	return *this;
 }
 inline Matrix33 Matrix33::CreateScaling(float x, float y) {
 	return Matrix33(
@@ -510,8 +515,8 @@ inline Matrix33 Matrix33::CreateRotation(float t) {
 	float s = Math::Sin(t);
 	float c = Math::Cos(t);
 	return Matrix33(
-		c, -s,  0,
-		s,  c,  0,
+		c,  s,  0,
+		-s, c,  0,
 		0,  0,  1
 	);
 }
@@ -525,3 +530,4 @@ inline Matrix33 Matrix33::CreateTranslation(float x, float y) {
 inline Matrix33 Matrix33::CreateTranslation(const Vector2D& vec) {
 	return CreateTranslation(vec.x, vec.y);
 }
+#pragma endregion

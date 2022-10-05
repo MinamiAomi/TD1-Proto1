@@ -4,7 +4,9 @@
 #include "Container.h"
 #include "Scene.h"
 #include "Normal.h"
+#include "Screen.h"
 #include "Player.h"
+
 
 Game::Game() {
 
@@ -12,12 +14,17 @@ Game::Game() {
 
 	mScene[kNormal] = new Normal(this);
 
+	mScreen = new Screen(this);
+
 	mPlayer = new Player(this);
+
 }
 
 Game::~Game() {
 
 	delete mPlayer;
+
+	delete mScreen;
 
 	for (int num = 0; num < kSceneIdNum; num++) {
 		delete mScene[num];
@@ -38,6 +45,8 @@ void Game::Run() {
 	mScene[kNormal]->Create();
 
 	ChangeScene(kNormal);
+
+	mScreen->Create();
 
 	mPlayer->Create();
 

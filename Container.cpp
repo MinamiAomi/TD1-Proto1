@@ -15,6 +15,10 @@ void Container::Load() {
 }
 
 void Container::setData() {
+	mGameData.screen.mScroll = { 0,720 };
+	mGameData.screen.isCameraShake = false;
+	mGameData.screen.mMatrix.setIdentity();
+	mGameData.screen.mColor = 0xFFFFFFFF;
 	
 }
 

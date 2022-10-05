@@ -1,6 +1,7 @@
 #include "Normal.h"
 #include "Game.h"
 #include "Player.h"
+#include "OrbitCircle.h"
 
 Normal::Normal(Game* game) :
 	Scene(game)

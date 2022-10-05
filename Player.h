@@ -1,18 +1,35 @@
 #pragma once
 #include "GameObject.h"
-#include "PolygonVertex.h"
-#include <vector>
+#include "MyMath.h"
 
 class Player : 
 	public GameObject {
 
 public:
-	struct Data {
-		int mVertexNum;
-		std::vector<PolygonVertex> mVertexs;
+	struct PolygonVertex {
+		enum State {
+			kMove,
+			kStay,
 
-		int mMoveVertexNum;
+			kStateNum
+		};
+
+		Vector2D mPosition;
+		float mTheta;
+		State mState;
 	};
+
+	struct Data {
+		int mTotalVertexNum;
+		PolygonVertex* mVertexs;
+		Vector2D mOriginalVertexPosition;
+		int mMoveVertexNum;
+		float mVertexThetaSpeed;
+		int isReverse;
+		class OrbitCircle* mOrbitCircle;
+
+	};
+
 
 private:
 	Data mData;
@@ -26,6 +43,9 @@ public:
 	void Init();
 	void Update();
 	void Draw();
+
+	const Vector2D& originalVertexPosition() const { return mData.mOriginalVertexPosition; }
+	const class OrbitCircle* orbitCircle() const { return mData.mOrbitCircle; }
 
 private:
 	void Input();
